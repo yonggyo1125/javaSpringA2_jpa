@@ -7,31 +7,37 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.koreait.constants.MemberType;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Entity
 @Table(name="users", indexes={
         @Index(name="idx_member_usernm", columnList = "userNm")
 }) // 테이블 명이 user로 생성
-public class Member {
+public class Member extends BaseEntity {
     @Id
     //@TableGenerator(name = "user_seq")
     //@GeneratedValue(strategy = GenerationType.TABLE)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userNo; // 회원번호
+
+    @Column(length=40, nullable=false, unique=true)
     private String userId; // 회원 아이디
+
+    @Column(length=65, nullable=false, name="userPass") // 실제 테이블의 필드명 userPass
     private String userPw; // 회원 비밀번호
+
+    @Column(length=40, nullable=false)
     private String userNm; // 회원명
 
     @Lob  // String - CLOB
+   // @Transient // 엔티티 내부에서만 사용되는 항목 - 테이블 필드로 반영 X
     private String introduction; // 자기소개
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
+    @Column(length=20)
     private MemberType memberType;
 
-    @CreationTimestamp //  INSERT 쿼리시 자동으로 현재 날짜와 시간이 추가
-    private LocalDateTime regDt; // 회원 가입일시
-
-    @UpdateTimestamp // UPDATE 쿼리시 자동으로 현재 날짜와 시간이 수정
-    private LocalDateTime modDt; // 회원 정보 수정일시
+    @Temporal(TemporalType.DATE) // 날짜와 시간
+    private Date birthDt;
 }
