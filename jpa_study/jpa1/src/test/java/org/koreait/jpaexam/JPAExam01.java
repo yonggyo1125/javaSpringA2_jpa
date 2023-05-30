@@ -29,7 +29,7 @@ public class JPAExam01 {
         em.persist(member); // 영속성 상태 -> 변화 감지
         em.flush(); // 변화 상태 -> DB에 반영
 
-        em.detach(member);
+        //em.detach(member);
     }
 
     @Test
