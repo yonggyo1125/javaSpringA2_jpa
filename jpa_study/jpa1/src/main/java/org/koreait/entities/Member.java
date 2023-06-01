@@ -50,5 +50,6 @@ public class Member extends BaseEntity {
 
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="address_id")
+    @ToString.Exclude
     private Address address;
 }

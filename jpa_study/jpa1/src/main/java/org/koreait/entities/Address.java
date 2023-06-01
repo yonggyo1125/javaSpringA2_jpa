@@ -20,4 +20,7 @@ public class Address extends BaseEntity {
 
     @Column(length=100)
     private String addressSub; // 나머지 주소
+
+    @OneToOne(mappedBy = "address", fetch=FetchType.LAZY)
+    private Member member;
 }

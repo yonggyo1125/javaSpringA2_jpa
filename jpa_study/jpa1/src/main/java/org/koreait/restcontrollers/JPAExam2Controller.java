@@ -103,4 +103,20 @@ public class JPAExam2Controller {
     public void ex06() {
         List<BoardData> items = listService.gets();
     }
+
+    @GetMapping("/ex07")
+    public void ex07() {
+        Member member = memberRepository.findByUserId("user01");
+        Address address = member.getAddress();
+        String addr = address.getAddress();
+        log.info(addr);
+    }
+
+    @GetMapping("/ex08")
+    public void ex08() {
+        Address address = addressRepository.findById(1L).orElse(null);
+        Member member = address.getMember();
+        String userId = member.getUserId();
+        log.info(userId);
+    }
 }
