@@ -1,16 +1,20 @@
 package org.koreait.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.koreait.constants.MemberType;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-@Data
+@Data @Builder
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name="users", indexes={
         @Index(name="idx_member_usernm", columnList = "userNm")
 }) // 테이블 명이 user로 생성
@@ -40,4 +44,7 @@ public class Member extends BaseEntity {
 
     @Temporal(TemporalType.DATE) // 날짜와 시간
     private Date birthDt;
+
+    @OneToMany(mappedBy = "member")
+    private List<BoardData> boardatas = new ArrayList<>();
 }
