@@ -45,6 +45,10 @@ public class Member extends BaseEntity {
     @Temporal(TemporalType.DATE) // 날짜와 시간
     private Date birthDt;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", fetch=FetchType.LAZY)
     private List<BoardData> boardatas = new ArrayList<>();
+
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="address_id")
+    private Address address;
 }

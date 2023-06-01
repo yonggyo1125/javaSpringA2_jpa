@@ -19,7 +19,7 @@ public class BoardData extends BaseEntity {
     @Column(length=40, nullable=false)
     private String poster;
 
-    @ManyToOne(fetch=FetchType.LAZY) // 지연 로딩
+    @ManyToOne(fetch=FetchType.LAZY) // 지연 로딩(LAZY) - Global 전략, 필요할때만 즉시 로딩(EAGER)
     @JoinColumn(name="user_no")
     @ToString.Exclude
     private Member member;
