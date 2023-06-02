@@ -3,6 +3,7 @@ package org.koreait.controllers.board;
 import lombok.RequiredArgsConstructor;
 import org.koreait.entities.BoardData;
 import org.koreait.entities.Member;
+import org.koreait.models.board.BoardListService;
 import org.koreait.repositories.BoardDataRepository;
 import org.koreait.repositories.MemberRepository;
 import org.springframework.stereotype.Controller;
@@ -20,11 +21,14 @@ public class BoardController {
 
     private final BoardDataRepository boardDataRepository;
     private final MemberRepository memberRepository;
+    private final BoardListService listService;
 
     @GetMapping
     @ResponseBody
     public void index() {
-        List<BoardData> items = boardDataRepository.getBoardDatas();
+        List<BoardData> items = listService.gets();
+        items.stream().forEach(System.out::println);
+        //List<BoardData> items = boardDataRepository.getBoardDatas();
 
         //insertData();
         //BoardData boardData = boardDataRepository.findById(1L).orElse(null);
