@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.koreait.controllers.member.JoinForm;
 import org.koreait.entities.Member;
 import org.koreait.repositories.MemberRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,11 @@ public class JoinService {
     private final PasswordEncoder passwordEncoder;
 
     public void join(JoinForm joinForm) {
+        Member member = new ModelMapper().map(joinForm, Member.class);
 
+        String hash = passwordEncoder.encode(joinForm.getUserPw());
+        member.setUserPw(hash);
+
+        repository.saveAndFlush(member);
     }
-
 }
