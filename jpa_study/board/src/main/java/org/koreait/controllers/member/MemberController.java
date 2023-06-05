@@ -6,10 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.koreait.models.member.JoinService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/member")
@@ -40,9 +37,16 @@ public class MemberController {
     }
 
     @GetMapping("/login")
-    public String login(@ModelAttribute LoginForm loginForm, HttpSession session) {
+    public String login(@ModelAttribute LoginForm loginForm, HttpSession session, @CookieValue(required=false) String savedId) {
+        if (savedId != null) {
+            loginForm.setUserId(savedId);
+            loginForm.setSaveId(true);
+        }
+
         String userId = (String)session.getAttribute("userId");
-        loginForm.setUserId(userId);
+        if (userId != null) {
+            loginForm.setUserId(userId);
+        }
 
         return "member/login";
     }
