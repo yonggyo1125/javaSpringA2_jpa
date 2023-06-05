@@ -1,5 +1,6 @@
 package org.koreait.controllers.member;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.koreait.models.member.JoinService;
@@ -39,7 +40,10 @@ public class MemberController {
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String login(@ModelAttribute LoginForm loginForm, HttpSession session) {
+        String userId = (String)session.getAttribute("userId");
+        loginForm.setUserId(userId);
+
         return "member/login";
     }
 }

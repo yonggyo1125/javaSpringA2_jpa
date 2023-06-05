@@ -14,6 +14,9 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
 
         HttpSession session = request.getSession();
+        session.removeAttribute("loginField");
+        session.removeAttribute("message");
+        session.removeAttribute("userId");
 
         try {
             String userId = request.getParameter("userId");
@@ -21,6 +24,8 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
             if (userId == null || userId.isBlank()) {
                 throw new LoginValidationException("userId", "아이디를 입력하세요.");
             }
+
+            session.setAttribute("userId", userId);
 
             if (userPw == null || userPw.isBlank()) {
                 throw new LoginValidationException("userPw", "비밀번호를 입력하세요.");
