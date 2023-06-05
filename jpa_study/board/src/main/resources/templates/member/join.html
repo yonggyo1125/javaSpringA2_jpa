@@ -17,7 +17,7 @@
             <dl>
                 <dt th:text="#{userPw}"></dt>
                 <dd>
-                    <input type="text" name="userPw" th:field="*{userPw}">
+                    <input type="password" name="userPw" th:field="*{userPw}">
                     <div class="errors" th:each="err : ${#fields.errors('userPw')}" th:text="${err}"></div>
                 </dd>
             </dl>
@@ -25,7 +25,7 @@
             <dl>
                 <dt th:text="#{userPwRe}"></dt>
                 <dd>
-                    <input type="text" name="userPwRe" th:field="*{userPwRe}">
+                    <input type="password" name="userPwRe" th:field="*{userPwRe}">
                     <div class="errors" th:each="err : ${#fields.errors('userPwRe')}" th:text="${err}"></div>
                 </dd>
             </dl>
@@ -56,6 +56,7 @@
             <div>
                 <input type="checkbox" name="agree" value="true" id="agree" th:field="*{agree}">
                 <label for="agree" th:text="#{member.terms.agree}"></label>
+                <div class="errors" th:each="err : ${#fields.errors('agree')}" th:text="${err}"></div>
             </div>
             <button type="submit" th:text="#{member.btn.join}"></button>
         </form>
