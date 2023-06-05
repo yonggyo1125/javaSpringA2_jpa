@@ -1,6 +1,7 @@
 package org.koreait.models.member;
 
 import lombok.RequiredArgsConstructor;
+import org.koreait.commons.constants.MemberType;
 import org.koreait.controllers.member.JoinForm;
 import org.koreait.entities.Member;
 import org.koreait.repositories.MemberRepository;
@@ -17,6 +18,7 @@ public class JoinService {
 
     public void join(JoinForm joinForm) {
         Member member = new ModelMapper().map(joinForm, Member.class);
+        member.setType(MemberType.USER);
 
         String hash = passwordEncoder.encode(joinForm.getUserPw());
         member.setUserPw(hash);

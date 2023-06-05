@@ -28,6 +28,13 @@ public class SecurityConfig {
                         .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
                         .logoutSuccessUrl("/member/login") // 로그아웃 성공시 URL 
                 );
+
+        http.authorizeHttpRequests(f -> f
+                .requestMatchers("/mypage/**").authenticated() // 로그인한 회원만 접근 가능한 URL
+                .requestMatchers("/admin/**").hasAuthority("ADMIN") // 관리자만 접근 가능한 페이지
+                .anyRequest().permitAll()
+        );
+
         return http.build();
     }
 

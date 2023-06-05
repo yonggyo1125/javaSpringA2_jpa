@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.koreait.commons.constants.MemberType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,10 @@ public class Member extends BaseEntity {
 
     @Column(length=11)
     private String mobile; // 휴대전화 번호
+
+    @Enumerated(EnumType.STRING)
+    @Column(length=20)
+    private MemberType type = MemberType.USER; // USER - 사용자, ADMIN - 관리자
 
     @OneToMany(mappedBy = "member")
     private List<BoardData> boardDatas = new ArrayList<>();
