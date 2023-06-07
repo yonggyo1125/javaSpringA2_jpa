@@ -29,6 +29,11 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         response.addCookie(cookie);
         /* 아이디 쿠키 저장 처리 E */
 
+        /* 회원 정보를 세션에 별도 저장 - 편의 기능 S */
+        MemberInfo memberInfo = (MemberInfo)authentication.getPrincipal();
+        session.setAttribute("memberInfo", memberInfo);
+        /* 회원 정보를 세션에 별도 저장 - 편의 기능 E */
+
         String url = request.getContextPath() + "/";
         response.sendRedirect(url);
     }

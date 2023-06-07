@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.koreait.commons.constants.MemberType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -19,6 +20,7 @@ public class MemberInfo implements UserDetails {
     private String userNm;
     private String email;
     private String mobile;
+    private MemberType type;
 
     private Collection<GrantedAuthority> authorities;
 
