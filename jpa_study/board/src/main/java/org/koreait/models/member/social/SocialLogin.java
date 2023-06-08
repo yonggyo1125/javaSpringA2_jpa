@@ -3,7 +3,7 @@ package org.koreait.models.member.social;
 import org.koreait.configs.SocialConfig;
 import org.springframework.stereotype.Component;
 
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -24,11 +24,11 @@ public class SocialLogin {
          * redirect_uri=
          * code=
          */
-
+        HttpURLConnection conn = null;
         try {
             URL url = new URL("https://kauth.kakao.com/oauth/token");
 
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn = (HttpURLConnection) url.openConnection();
             conn.setDoOutput(true);
             conn.setDoInput(true);
 
@@ -44,11 +44,39 @@ public class SocialLogin {
             }
             /** 요청 E */
             /** 응답 S */
+            StringBuffer sb = new StringBuffer(7000);
+            try(InputStream in = conn.getInputStream();
+                InputStreamReader isr = new InputStreamReader(in, "UTF-8");
+                BufferedReader br = new BufferedReader(isr)) {
+                String line = null;
+                while((line = br.readLine()) != null) {
+                    sb.append(line);
+                }
+            }
 
+            String result = sb.toString();
+            System.out.println(result);
             /** 응답 E */
 
 
         } catch (Exception e) {
+            e.printStackTrace();
+            if (conn != null) { // 응답 코드가 200대가 아닌 경우
+                  StringBuffer sb = new StringBuffer(7000);
+                  try (InputStream in = conn.getErrorStream();
+                      InputStreamReader isr = new InputStreamReader(in, "UTF-8");
+                      BufferedReader br = new BufferedReader(isr)) {
+
+                      String line = null;
+                      while((line = br.readLine()) != null) {
+                          sb.append(line);
+                      }
+
+                      System.out.println(sb.toString());
+                  } catch (IOException e2) {
+                      e2.printStackTrace();
+                  }
+            }
 
         }
         return null;
