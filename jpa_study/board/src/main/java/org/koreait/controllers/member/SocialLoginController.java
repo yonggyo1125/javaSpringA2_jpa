@@ -21,7 +21,7 @@ public class SocialLoginController {
             // return "redirect:/member/login";
         }
 
-        socialLogin.getAccessToken(code);
+        socialLogin.getProfile(code);
     }
 
 }

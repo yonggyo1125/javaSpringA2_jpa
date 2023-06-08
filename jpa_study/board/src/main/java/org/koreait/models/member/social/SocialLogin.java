@@ -87,4 +87,50 @@ public class SocialLogin {
 
         return accessToken;
     }
+
+    public void getProfile(String code) {
+        String accessToken = getAccessToken(code);
+        if (accessToken == null || accessToken.isBlank()) {
+            throw new RuntimeException("잘못된 요청 접근 입니다.");
+        }
+
+        /**
+         * https://kapi.kakao.com/v2/user/me
+         * Authorization	Authorization: Bearer ${ACCESS_TOKEN}
+         */
+        HttpURLConnection conn = null;
+        try {
+            URL url = new URL("https://kapi.kakao.com/v2/user/me");
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setDoInput(true);
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+            conn.setRequestProperty("Authorization", "Bearer " + accessToken);
+
+            StringBuffer sb = new StringBuffer(7000);
+            try (InputStream in = conn.getInputStream();
+                 InputStreamReader isr = new InputStreamReader(in);
+                 BufferedReader br = new BufferedReader(isr)) {
+
+                String line = null;
+                while((line = br.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                String result = sb.toString();
+                System.out.println(result);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (conn != null) {
+                try (InputStream in = conn.getErrorStream();
+                    InputStreamReader isr = new InputStreamReader(in);
+                    BufferedReader br = new BufferedReader(isr)) {
+
+                } catch (IOException e2) {
+                    e2.printStackTrace();
+                }
+            }
+        }
+     }
 }
