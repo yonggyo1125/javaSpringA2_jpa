@@ -25,6 +25,8 @@ public class SocialLogin {
          * redirect_uri=
          * code=
          */
+        String accessToken = null;
+
         HttpURLConnection conn = null;
         try {
             URL url = new URL("https://kauth.kakao.com/oauth/token");
@@ -58,7 +60,7 @@ public class SocialLogin {
             String result = sb.toString();
             ObjectMapper om = new ObjectMapper();
             TokenInfo tokenInfo = om.readValue(result, TokenInfo.class);
-            System.out.println(tokenInfo);
+            accessToken = tokenInfo.getAccess_token();
             /** 응답 E */
 
 
@@ -82,6 +84,7 @@ public class SocialLogin {
             }
 
         }
-        return null;
+
+        return accessToken;
     }
 }
