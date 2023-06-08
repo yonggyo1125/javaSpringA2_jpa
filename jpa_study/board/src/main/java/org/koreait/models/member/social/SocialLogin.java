@@ -1,5 +1,6 @@
 package org.koreait.models.member.social;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.koreait.configs.SocialConfig;
 import org.springframework.stereotype.Component;
 
@@ -55,7 +56,9 @@ public class SocialLogin {
             }
 
             String result = sb.toString();
-            System.out.println(result);
+            ObjectMapper om = new ObjectMapper();
+            TokenInfo tokenInfo = om.readValue(result, TokenInfo.class);
+            System.out.println(tokenInfo);
             /** 응답 E */
 
 
