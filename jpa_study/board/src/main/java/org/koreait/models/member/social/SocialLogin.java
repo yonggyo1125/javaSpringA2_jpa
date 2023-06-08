@@ -109,7 +109,7 @@ public class SocialLogin {
 
             StringBuffer sb = new StringBuffer(7000);
             try (InputStream in = conn.getInputStream();
-                 InputStreamReader isr = new InputStreamReader(in);
+                 InputStreamReader isr = new InputStreamReader(in, "UTF-8");
                  BufferedReader br = new BufferedReader(isr)) {
 
                 String line = null;
@@ -123,10 +123,15 @@ public class SocialLogin {
         } catch (Exception e) {
             e.printStackTrace();
             if (conn != null) {
+                StringBuffer sb = new StringBuffer(7000);
                 try (InputStream in = conn.getErrorStream();
-                    InputStreamReader isr = new InputStreamReader(in);
+                    InputStreamReader isr = new InputStreamReader(in, "UTF-8");
                     BufferedReader br = new BufferedReader(isr)) {
-
+                    String line = null;
+                    while((line = br.readLine()) != null) {
+                        sb.append(line);
+                    }
+                    System.out.println(sb.toString());
                 } catch (IOException e2) {
                     e2.printStackTrace();
                 }
