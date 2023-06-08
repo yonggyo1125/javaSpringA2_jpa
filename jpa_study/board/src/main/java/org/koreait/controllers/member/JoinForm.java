@@ -26,6 +26,10 @@ public class JoinForm {
     private String email;
     private String mobile;
 
+    private String zipcode;
+    private String address;
+    private String addressSub;
+
     @AssertTrue
     private boolean agree;
 }

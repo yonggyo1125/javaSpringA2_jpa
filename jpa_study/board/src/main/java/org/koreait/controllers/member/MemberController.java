@@ -8,6 +8,7 @@ import org.koreait.commons.MemberUtils;
 import org.koreait.models.member.JoinService;
 import org.koreait.models.member.MemberInfo;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,8 @@ public class MemberController {
     private final MemberUtils memberUtils;
 
     @GetMapping("/join")
-    public String join(@ModelAttribute JoinForm joinForm) {
+    public String join(@ModelAttribute JoinForm joinForm, Model model) {
+        model.addAttribute("addScript", new String[] { "member/join"} );
 
         return "member/join";
     }

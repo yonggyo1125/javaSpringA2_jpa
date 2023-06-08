@@ -3,6 +3,7 @@
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     layout:decorate="~{layouts/main}">
     <main layout:fragment="content">
+
         <form method="post" th:action="@{/member/login}" th:object="${loginForm}">
             <div class="errors" th:if="${session.loginField == 'global'}" th:text="${session.message}"></div>
             <dl>
@@ -25,5 +26,6 @@
             </div>
             <button type="submit" th:text="#{member.btn.login}"></button>
         </form>
+        <a th:href="${@socialLogin.getAuthUrl()}">카카오 로그인</a>
     </main>
 </html>

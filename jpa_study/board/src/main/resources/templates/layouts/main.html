@@ -8,6 +8,7 @@
         <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
         <link rel="stylesheet" type="text/css" th:each="file : ${addCss}" th:href="@{/css/{file}.css(file=${file})}">
         <th:block layout:fragment="addCss"></th:block>
+        <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
         <script th:src="@{/js/common.js}"></script>
         <script th:each="file : ${addScript}" th:src="@{/js/{file}.js(file=${file})}"></script>
         <th:block layout:fragment="addScript"></th:block>

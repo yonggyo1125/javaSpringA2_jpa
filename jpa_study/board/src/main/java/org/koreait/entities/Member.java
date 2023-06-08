@@ -35,6 +35,13 @@ public class Member extends BaseEntity {
     @Column(length=20)
     private MemberType type = MemberType.USER; // USER - 사용자, ADMIN - 관리자
 
+    @Column(length=10)
+    private String zipcode;
+    @Column(length=100)
+    private String address;
+    @Column(length=100)
+    private String addressSub;
+
     @OneToMany(mappedBy = "member")
     private List<BoardData> boardDatas = new ArrayList<>();
 }
