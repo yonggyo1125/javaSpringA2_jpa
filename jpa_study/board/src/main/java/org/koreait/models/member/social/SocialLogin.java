@@ -1,6 +1,7 @@
 package org.koreait.models.member.social;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.koreait.configs.SocialConfig;
 import org.springframework.stereotype.Component;
 
@@ -118,7 +119,13 @@ public class SocialLogin {
                 }
 
                 String result = sb.toString();
-                System.out.println(result);
+                ObjectMapper om = new ObjectMapper();
+                om.registerModule(new JavaTimeModule());
+                ProfileResult profileResult = om.readValue(result, ProfileResult.class);
+
+
+
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -131,6 +138,7 @@ public class SocialLogin {
                     while((line = br.readLine()) != null) {
                         sb.append(line);
                     }
+
                     System.out.println(sb.toString());
                 } catch (IOException e2) {
                     e2.printStackTrace();
