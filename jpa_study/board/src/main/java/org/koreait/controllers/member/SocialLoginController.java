@@ -29,10 +29,12 @@ public class SocialLoginController {
         session.setAttribute("kakao", profileResult);
 
         // 이미 가입된 카카오 계정인 경우는 로그인
-        
+        if (socialLogin.exists("kakao", profileResult.getId())) {
+            socialLogin.login("kakao", profileResult.getId());
+            return "redirect:/";
+        }
 
         // 가입 안된 계정인 경우는 회원 가입
-
         return "redirect:/member/join";
     }
 

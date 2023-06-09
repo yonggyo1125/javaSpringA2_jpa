@@ -2,7 +2,10 @@ package org.koreait.models.member.social;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import lombok.RequiredArgsConstructor;
 import org.koreait.configs.SocialConfig;
+import org.koreait.entities.Member;
+import org.koreait.repositories.MemberRepository;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
@@ -10,7 +13,18 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 @Component
+@RequiredArgsConstructor
 public class SocialLogin {
+    private final MemberRepository repository;
+
+    public boolean exists(String channel, Long id) {
+        return repository.exists(channel, String.valueOf(id));
+    }
+
+    public void login(String channel, Long id) {
+        Member member = repository.findBySocialChannelAndSocialId(channel, String.valueOf(id));
+    }
+
     public String getAuthUrl() {
         String url = String.format("https://kauth.kakao.com/oauth/authorize?client_id=%s&redirect_uri=%s&response_type=code",
                 SocialConfig.restApiKey, SocialConfig.restApiCallback);
