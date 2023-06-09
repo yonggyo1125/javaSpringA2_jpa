@@ -89,7 +89,7 @@ public class SocialLogin {
         return accessToken;
     }
 
-    public void getProfile(String code) {
+    public ProfileResult getProfile(String code) {
         String accessToken = getAccessToken(code);
         if (accessToken == null || accessToken.isBlank()) {
             throw new RuntimeException("잘못된 요청 접근 입니다.");
@@ -123,8 +123,7 @@ public class SocialLogin {
                 om.registerModule(new JavaTimeModule());
                 ProfileResult profileResult = om.readValue(result, ProfileResult.class);
 
-
-
+                return profileResult;
 
             }
         } catch (Exception e) {
@@ -145,5 +144,7 @@ public class SocialLogin {
                 }
             }
         }
+
+        return null;
      }
 }

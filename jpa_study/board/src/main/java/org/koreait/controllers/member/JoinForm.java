@@ -12,11 +12,9 @@ public class JoinForm {
     @Size(min=6)
     private String userId;
 
-    @NotBlank
     @Size(min=8)
     private String userPw;
 
-    @NotBlank
     private String userPwRe;
 
     @NotBlank

@@ -1,11 +1,12 @@
 package org.koreait.controllers.member;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.koreait.models.member.social.ProfileResult;
 import org.koreait.models.member.social.SocialLogin;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/social")
@@ -14,14 +15,25 @@ public class SocialLoginController {
 
     private final SocialLogin socialLogin;
 
-    @ResponseBody
     @GetMapping("/login")
-    public void login(String code) {
+    public String login(String code, HttpSession session) {
         if (code == null || code.isBlank()) {
-            // return "redirect:/member/login";
+            return "redirect:/member/login";
         }
 
-        socialLogin.getProfile(code);
+        ProfileResult profileResult = socialLogin.getProfile(code);
+        if (profileResult == null) {
+            return "redirect:/member/login";
+        }
+
+        session.setAttribute("kakao", profileResult);
+
+        // 이미 가입된 카카오 계정인 경우는 로그인
+        
+
+        // 가입 안된 계정인 경우는 회원 가입
+
+        return "redirect:/member/join";
     }
 
 }

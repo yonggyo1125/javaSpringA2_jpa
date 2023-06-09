@@ -1,7 +1,9 @@
 package org.koreait.controllers.member;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.koreait.commons.validators.MobileValidator;
+import org.koreait.models.member.social.ProfileResult;
 import org.koreait.repositories.MemberRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -12,6 +14,7 @@ import org.springframework.validation.Validator;
 public class JoinValidator implements Validator, MobileValidator {
 
     private final MemberRepository repository;
+    private final HttpSession session;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -30,6 +33,17 @@ public class JoinValidator implements Validator, MobileValidator {
         String userPw = joinForm.getUserPw();
         String userPwRe = joinForm.getUserPwRe();
         String mobile = joinForm.getMobile();
+
+        ProfileResult profileResult = (ProfileResult) session.getAttribute("kakao");
+
+        // 0. 카카오 회원가입이 아닌 경우 비밀번호 필수 여부 체크
+        if (profileResult == null && (userPw == null || userPw.isBlank())) {
+            errors.rejectValue("userPw", "NotBlank");
+        }
+
+        if (profileResult == null && (userPwRe == null || userPwRe.isBlank())) {
+            errors.rejectValue("userPwRe", "NotBlank");
+        }
 
         // 1. 아이디 중복 여부
         if (userId != null && !userId.isBlank() && repository.exists(userId)) {

@@ -19,7 +19,7 @@ public class Member extends BaseEntity {
     @Column(length=40, nullable = false, unique = true)
     private String userId; // 아이디
 
-    @Column(length=65, nullable = false)
+    @Column(length=65)
     private String userPw; // 비밀번호
 
     @Column(length=40, nullable=false)
@@ -41,6 +41,12 @@ public class Member extends BaseEntity {
     private String address;
     @Column(length=100)
     private String addressSub;
+
+    @Column(length=10)
+    private String socialChannel;
+
+    @Column(length=40)
+    private String socialId;
 
     @OneToMany(mappedBy = "member")
     private List<BoardData> boardDatas = new ArrayList<>();

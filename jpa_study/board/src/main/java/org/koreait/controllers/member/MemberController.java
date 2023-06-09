@@ -7,6 +7,7 @@ import lombok.extern.java.Log;
 import org.koreait.commons.MemberUtils;
 import org.koreait.models.member.JoinService;
 import org.koreait.models.member.MemberInfo;
+import org.koreait.models.member.social.ProfileResult;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -21,9 +22,16 @@ public class MemberController {
     private final JoinValidator joinValidator;
     private final JoinService joinService;
     private final MemberUtils memberUtils;
+    private final HttpSession session;
 
     @GetMapping("/join")
     public String join(@ModelAttribute JoinForm joinForm, Model model) {
+
+        ProfileResult profileResult = (ProfileResult)session.getAttribute("kakao");
+        if (profileResult != null) {
+            joinForm.setUserNm(profileResult.getProperties().getNickname());
+        }
+
         model.addAttribute("addScript", new String[] { "member/join"} );
 
         return "member/join";
